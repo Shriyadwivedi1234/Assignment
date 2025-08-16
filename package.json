@@ -1,0 +1,14 @@
+{
+  "name": "company-project",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix Backend\" \"npm run dev --prefix Frontend\"",
+    "start": "concurrently \"npm run start --prefix Backend\" \"npm run start --prefix Frontend\""
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.2.0",
+    "nodemon": "^3.1.10",
+    "vite": "^7.1.2"
+  }
+}

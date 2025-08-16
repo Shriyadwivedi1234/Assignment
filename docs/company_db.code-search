@@ -1,0 +1,167 @@
+# Query: company_db
+# ContextLines: 1
+
+48 results - 6 files
+
+env.example:
+  3  DB_PORT=5432
+  4: DB_NAME=users
+  5  DB_USER=postgres
+
+docs\CSV_INTEGRATION.md:
+   20  # In the psql prompt, create the database:
+   21: CREATE DATABASE users;
+   22  
+
+   26  # Connect to the new database:
+   27: \c users
+   28  
+
+   38  # Connect to your database
+   39: psql -U postgres -d company_db
+   40  
+
+   82  2. Right-click on Databases → Create → Database
+   83: 3. Name it `company_db`
+   84  4. Right-click on the new database → Query Tool
+
+   92  # Connect to your database
+   93: psql -U postgres -d company_db
+   94  
+
+  121  DB_PORT=5432
+  122: DB_NAME=company_db
+  123  DB_USER=postgres
+
+  194  
+  195: - [ ] Database `company_db` created successfully
+  196  - [ ] `company_profiles` table created with correct structure
+
+docs\DATABASE_INTEGRATION.md:
+    2  
+    3: This guide will help you integrate your PostgreSQL database file (`company_db`) into the project.
+    4  
+
+    6  - ✅ PostgreSQL 15+ installed
+    7: - ✅ Your database file extracted at `C:\Users\shriy\Downloads\company_db`
+    8  - ✅ Access to PostgreSQL as a superuser
+
+   16  # Check file extension
+   17: dir "C:\Users\shriy\Downloads\company_db"
+   18  ```
+
+   34  # In the psql prompt, create the database:
+   35: CREATE DATABASE company_db;
+   36  
+
+   40  # Connect to the new database:
+   41: \c company_db
+   42  
+
+   50  ```bash
+   51: psql -U postgres -d company_db -f "C:\Users\shriy\Downloads\company_db"
+   52  ```
+
+   55  ```bash
+   56: pg_restore -U postgres -d company_db "C:\Users\shriy\Downloads\company_db"
+   57  ```
+
+   60  ```bash
+   61: pg_restore -U postgres -d company_db -F t "C:\Users\shriy\Downloads\company_db"
+   62  ```
+
+   67  # Connect to your database
+   68: psql -U postgres -d company_db
+   69  
+
+   94  DB_PORT=5432
+   95: DB_NAME=company_db
+   96  DB_USER=postgres
+
+  125  # Drop and recreate if needed
+  126: DROP DATABASE IF EXISTS company_db;
+  127: CREATE DATABASE company_db;
+  128  ```
+
+  144  2. Right-click on Databases → Create → Database
+  145: 3. Name it `company_db`
+  146  4. Right-click on the new database → Restore
+
+  154  # Then run import commands
+  155: psql -U postgres -d company_db -f "C:\Users\shriy\Downloads\company_db"
+  156  ```
+
+  159  
+  160: - [ ] Database `company_db` created successfully
+  161  - [ ] Tables imported with correct structure
+
+scripts\integrate_csv.bat:
+  33  
+  34: echo Step 1: Creating database 'company_db'...
+  35  echo.
+  36  echo Please enter your PostgreSQL password when prompted:
+  37: psql -U postgres -c "CREATE DATABASE company_db;" 2>nul
+  38  if %errorlevel% equ 0 (
+  39:     echo Database 'company_db' created successfully! ✓
+  40  ) else (
+
+  48  echo Please enter your PostgreSQL password when prompted:
+  49: psql -U postgres -d company_db -c "CREATE TABLE IF NOT EXISTS company_profiles (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, company_name VARCHAR(255), about_us TEXT, logo_url TEXT, banner_url TEXT, organization_type VARCHAR(100), company_type VARCHAR(100), team_size VARCHAR(50), year_established VARCHAR(10), website VARCHAR(255), vision TEXT, address TEXT, city VARCHAR(100), state VARCHAR(100), zip_code VARCHAR(20), country VARCHAR(100), phone VARCHAR(20), email VARCHAR(255), contact_person VARCHAR(255), contact_title VARCHAR(255), facebook VARCHAR(255), twitter VARCHAR(255), instagram VARCHAR(255), linkedin VARCHAR(255), youtube VARCHAR(255), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);" 2>nul
+  50  if %errorlevel% equ 0 (
+
+  66  
+  67: psql -U postgres -d company_db -c "\copy company_profiles(company_name, about_us, logo_url, banner_url, organization_type, company_type, team_size, year_established, website, vision, address, city, state, zip_code, country, phone, email, contact_person, contact_title, facebook, twitter, instagram, linkedin, youtube) FROM 'C:\Users\shriy\Downloads\company_profile.csv' WITH (FORMAT csv, HEADER true);" 2>nul
+  68  if %errorlevel% equ 0 (
+
+  86  echo Please enter your PostgreSQL password when prompted:
+  87: psql -U postgres -d company_db -c "SELECT COUNT(*) as total_companies FROM company_profiles;" 2>nul
+  88  if %errorlevel% equ 0 (
+
+scripts\integrate_csv.ps1:
+   36  # Step 1: Create database
+   37: Write-Host "Step 1: Creating database 'company_db'..." -ForegroundColor Yellow
+   38  Write-Host "Please enter your PostgreSQL password when prompted:" -ForegroundColor Cyan
+
+   41  try {
+   42:     $result = & psql -U postgres -c "CREATE DATABASE company_db;" 2>&1
+   43      if ($LASTEXITCODE -eq 0) {
+   44:         Write-Host "Database 'company_db' created successfully!" -ForegroundColor Green
+   45      } else {
+
+   91  try {
+   92:     $result = & psql -U postgres -d company_db -c $createTableSQL 2>&1
+   93      if ($LASTEXITCODE -eq 0) {
+
+  115  try {
+  116:     $result = & psql -U postgres -d company_db -c $copyCommand 2>&1
+  117      if ($LASTEXITCODE -eq 0) {
+
+  141  try {
+  142:     $result = & psql -U postgres -d company_db -c "SELECT COUNT(*) as total_companies FROM company_profiles;" 2>&1
+  143      if ($LASTEXITCODE -eq 0) {
+
+scripts\integrate_db.bat:
+  21  
+  22: echo Step 1: Creating database 'company_db'...
+  23  echo.
+  24  echo Please enter your PostgreSQL password when prompted:
+  25: psql -U postgres -c "CREATE DATABASE company_db;" 2>nul
+  26  if %errorlevel% equ 0 (
+  27:     echo Database 'company_db' created successfully! ✓
+  28  ) else (
+
+  35  echo.
+  36: echo Your database file location: C:\Users\shriy\Downloads\company_db
+  37  echo.
+
+  48      echo Please enter your PostgreSQL password when prompted:
+  49:     psql -U postgres -d company_db -f "C:\Users\shriy\Downloads\company_db"
+  50      if %errorlevel% equ 0 (
+
+  59      echo Please enter your PostgreSQL password when prompted:
+  60:     pg_restore -U postgres -d company_db "C:\Users\shriy\Downloads\company_db"
+  61      if %errorlevel% equ 0 (
+
+  81  echo Please enter your PostgreSQL password when prompted:
+  82: psql -U postgres -d company_db -c "\dt" 2>nul
+  83  if %errorlevel% equ 0 (
