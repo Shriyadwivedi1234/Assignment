@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { query } = require('../config/database');
+const { query } = require('../config/db');
 
 // Get all company profiles
 router.get('/', async (req, res) => {

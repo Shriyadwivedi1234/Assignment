@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { query } = require('../config/database');
+const { query } = require('../config/db');
 
 // Test database connection
 router.get('/test', async (req, res) => {
